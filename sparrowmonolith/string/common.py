@@ -1,6 +1,7 @@
 
 import copy
 import secrets
+import string
 
 import sparrowmonolith as mono
 
@@ -161,7 +162,7 @@ def delete_substrings(string, substrings):
 
 # Creating a random string.
 ##########
-def random_string(characters, length):
+def random_string(length, characters=None):
     """ This function returns a random string of characters of 
     some length from a set of characters to use.
 
@@ -169,21 +170,28 @@ def random_string(characters, length):
 
     Parameters
     ----------
-    characters : string
-        The total available characters to use. The order does 
-        not matter.
     length : int
         The length of the random string.
+    characters : string (optional)
+        The total available characters to use. The order does 
+        not matter. Use None for default string set: all lowercase
+        letters.
 
     Returns
     -------
     random_string : string
         The random string of proper length.    
     """
-
+    
     # Basic type checking.
     length = int(length)
-    characters = str(characters)
+    # If the characters list is None, just use default string set
+    # of all lowercase.
+    if (characters is None):
+        characters = string.ascii_lowercase
+    else:
+        characters = str(characters)
+
     # Implementing the random string generator found from the 
     # credited link.
     random_string = ''.join([secrets.choice(characters) 
