@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29926.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "sparrowmonolith", "sparrowmonolith.pyproj", "{0712CCCD-F282-4E47-988F-CA9E22F09388}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "string", "string\string.pyproj", "{5C01CE6C-81E5-4DCB-A823-810E54CA177D}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "math", "math\math.pyproj", "{C5E952F9-E1A0-41C7-AA29-DC780C2BD62B}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "io", "io\io.pyproj", "{7F45042D-0560-44A0-B950-4607660067DB}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "mask", "mask\mask.pyproj", "{870CCAF6-DC0C-4813-B9B6-D1F147BCEB97}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "api", "api\api.pyproj", "{D3D599CD-E97A-440D-9956-471510F560A9}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "_tests", "_tests\_tests.pyproj", "{E6AEDC2A-792C-468D-87AE-0254F5C7457B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0712CCCD-F282-4E47-988F-CA9E22F09388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0712CCCD-F282-4E47-988F-CA9E22F09388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C01CE6C-81E5-4DCB-A823-810E54CA177D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C01CE6C-81E5-4DCB-A823-810E54CA177D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5E952F9-E1A0-41C7-AA29-DC780C2BD62B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5E952F9-E1A0-41C7-AA29-DC780C2BD62B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F45042D-0560-44A0-B950-4607660067DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F45042D-0560-44A0-B950-4607660067DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{870CCAF6-DC0C-4813-B9B6-D1F147BCEB97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{870CCAF6-DC0C-4813-B9B6-D1F147BCEB97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3D599CD-E97A-440D-9956-471510F560A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3D599CD-E97A-440D-9956-471510F560A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6AEDC2A-792C-468D-87AE-0254F5C7457B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6AEDC2A-792C-468D-87AE-0254F5C7457B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {52CE44C8-3131-4A2B-A04E-258E6709DA92}
+	EndGlobalSection
+EndGlobal

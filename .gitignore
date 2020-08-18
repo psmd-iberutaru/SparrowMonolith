@@ -1,0 +1,20 @@
+# These files are usually associated with data, not code, and 
+# should not be checked.
+*.tar.bz2
+*.fits
+*.zip
+
+# Log files are for debugging, not for release and code.
+*.log
+
+# Nor do VS Community or VS code configuration files.
+.vs/*
+.vscode/*
+*.suo
+.suo
+
+# There is no need for pytest info.
+.pytest_cache/*
+
+# Python bytecode files should not be checked. 
+*.py[cod]
