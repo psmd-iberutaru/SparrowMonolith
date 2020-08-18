@@ -43,14 +43,14 @@ def _extract_oeis_values(sequence_key, index, count):
                               "returned must be greater than one.")
 
     # Obtain the OEIS sequence.
-    oeis_sequence = getattr(oeis, str(sequence_key), default=None)
+    oeis_sequence = getattr(oeis, str(sequence_key), None)
     # Test that the sequence is valid.
     if (oeis_sequence is None):
         raise mono.InputError("The OEIS sequence name is not a valid "
                               "sequence.")
     else:
         # It should be a valid sequence, extract the numbers.
-        return oeis_sequence[index, index+count]
+        return oeis_sequence[index:index+count]
     # The code should not reach here.
     raise mono.BrokenLogicError
     return None

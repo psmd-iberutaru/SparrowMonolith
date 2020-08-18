@@ -15,7 +15,7 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "mask", "mask\mask.pyproj", 
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "api", "api\api.pyproj", "{D3D599CD-E97A-440D-9956-471510F560A9}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "_tests", "_tests\_tests.pyproj", "{E6AEDC2A-792C-468D-87AE-0254F5C7457B}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "_test", "_test\_test.pyproj", "{E6AEDC2A-792C-468D-87AE-0254F5C7457B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

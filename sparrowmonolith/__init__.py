@@ -26,4 +26,4 @@ from sparrowmonolith import string
 #####
 # Internal modules.
 #####
-from sparrowmonolith import _tests
+from sparrowmonolith import _test
