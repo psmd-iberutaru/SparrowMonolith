@@ -393,6 +393,13 @@ class TimeWarning(SparrowWarning):
     """
     pass
 
+
+####################################################################
+####################################################################
+# Non-raise Error, Warning, Informational, and Logging Messages
+####################################################################
+####################################################################
+
 def error(type, message):
     """ This is a wrapper around the logging's error command. 
     However, it does not raise an error. Instead, an error may be 
@@ -417,11 +424,12 @@ def error(type, message):
                               "raise-able exception.")
     try:
         error_name = str(type.__name__)
-    except SparrowBaseException:
-        raise
     except Exception:
         # Or just apply a default.
         error_name = 'UserError'
+    except (BaseException, SparrowBaseException):
+        # Unless they are major errors, then re-raise them.
+        raise 
     finally:
         error_message = ''.join(['[', error_name, ']', '  ', message])
     # Log the error.
@@ -474,12 +482,6 @@ def log_warn(type, message):
     logging.warning(warning_message)
     # All done.
     return None
-
-####################################################################
-####################################################################
-# Informational Logging Messages
-####################################################################
-####################################################################
 
 def info(message, print=None):
     """

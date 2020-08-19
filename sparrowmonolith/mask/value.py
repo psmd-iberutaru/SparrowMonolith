@@ -63,7 +63,7 @@ def mask_sigma_value(data_array, sigma_multiple, sigma_iterations=1):
         top_sigma_multiple = flat_sigma_multiple[-1]
 
     # The number of iterations are accomplished by just doing loops.
-    final_mask = mono.mask_nothing(data_array=data_array)
+    final_mask = mono.mask.mask_nothing(data_array=data_array)
     for iterdex in range(sigma_iterations):
         # Calculate the mean and the sigma values of the data array.
         # masked pixels mean it was caught in previous iterations.

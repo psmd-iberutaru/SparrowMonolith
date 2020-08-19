@@ -45,8 +45,6 @@ def test_mask_invalid_infinity():
     # All done.
     return None
 
-
-
 def test_mask_invalid_nan():
     """ This tests the masking of NaN values within an array.
     """

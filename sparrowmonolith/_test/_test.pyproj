@@ -32,6 +32,9 @@
     <Compile Include="mask\test_mask_invalid.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mask\test_mask_value.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="math\test_math_array.py">
       <SubType>Code</SubType>
     </Compile>

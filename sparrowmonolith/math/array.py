@@ -39,6 +39,14 @@ def to_array(array_like):
     elif (isinstance(array_like, (list, tuple))):
         # A simple conversion is justified.
         array = np.array(array_like)
+    else:
+        # It cannot be turned into an array.
+        raise mono.DataError("Type `{ty}` cannot be turned into a Numpy "
+                             "array."
+                             .format(ty=type(array_like)))
+
+    # Return and done.
+    return array
 
 
 
