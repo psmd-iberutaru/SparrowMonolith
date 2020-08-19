@@ -26,6 +26,12 @@
     <Compile Include="common.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mask\test_mask_geometric.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mask\test_mask_invalid.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="math\test_math_array.py">
       <SubType>Code</SubType>
     </Compile>
@@ -36,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="math\" />
+    <Folder Include="mask\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
