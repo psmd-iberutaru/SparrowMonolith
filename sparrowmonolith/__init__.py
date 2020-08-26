@@ -27,3 +27,7 @@ from sparrowmonolith import string
 # Internal modules.
 #####
 from sparrowmonolith import _test
+
+
+# In general, comments do not exceed 72, or here                    |
+# In general, add code do not exceed 79, or here                            |
