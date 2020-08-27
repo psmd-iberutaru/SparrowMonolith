@@ -67,9 +67,9 @@ def mask_sigma_value(data_array, sigma_multiple, sigma_iterations=1):
     for iterdex in range(sigma_iterations):
         # Calculate the mean and the sigma values of the data array.
         # masked pixels mean it was caught in previous iterations.
-        mean = mono.math.ifas_robust_mean(
+        mean = mono.math.statistics.arithmetic_mean(
             array=np_ma.array(data_array, mask=final_mask).compressed())
-        stddev = mono.math.ifas_robust_std(
+        stddev = mono.math.statistics.standard_deviation(
             array=np_ma.array(data_array, mask=final_mask).compressed())
         
         # Calculating the two individual masks and combining them.
@@ -83,8 +83,8 @@ def mask_sigma_value(data_array, sigma_multiple, sigma_iterations=1):
         # The mask based version is proper, the difference between a 
         # mask and a mask is just semantics. Also, keep track
         # of the previous masks all run through the iterations.
-        final_mask = mono.mask.base.synthesize_masks(final_mask, 
-                                                     min_mask, max_mask)
+        final_mask = mono.mask.common.synthesize_masks(
+            final_mask, min_mask, max_mask)
 
     return final_mask
 

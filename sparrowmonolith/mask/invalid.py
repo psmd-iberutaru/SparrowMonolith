@@ -9,6 +9,26 @@ import numpy as np
 import numpy.ma as np_ma
 
 
+def mask_invalid_all(data_array):
+    """ This masks all invalid data, as defined by the other
+    masking functions in this field.
+
+    Parameters
+    ----------
+    data_array : ndarray
+        The array of which the invalid data will be masked.
+
+    Returns
+    -------
+    final_mask : ndarray
+        A boolean array for pixels that are masked (True) or are 
+        valid (False).
+    """
+    pass
+
+    return None
+
+
 def mask_invalid_infinity(data_array):
     """ This mask applies a mask to all infinite values as defined
     by np.inf and -np.inf. 

@@ -5,8 +5,18 @@ masks.
 """
 
 import numpy as np
+import pytest
 
 import sparrowmonolith as mono
+
+@pytest.mark.skip('not implemented')
+def test_mask_invalid_all():
+    """ This tests the masking of infinities, both plus and minus,
+    within an array.
+    """
+    assert False
+    # All done.
+    return None
 
 def test_mask_invalid_infinity():
     """ This tests the masking of infinities, both plus and minus,

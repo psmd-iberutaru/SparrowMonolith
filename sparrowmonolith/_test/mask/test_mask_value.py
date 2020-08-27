@@ -207,55 +207,14 @@ def test_mask_exact_value():
     # Prescribed masking parameters
     exact_value = 101
     # Create the mask.
-    test_mask = mask.mask_exact_value(data_array=test_array,
-                                          exact_value=exact_value)
+    test_mask = mono.mask.mask_exact_value(data_array=test_array,
+                                           exact_value=exact_value)
     # Create a masked array for both convince and testing.
     test_masked_array = np_ma.array(test_array, mask=test_mask, dtype=int)
 
     # A properly completed mask should have the same product value 
     # as this number. This is how the mask is checked.
     CHECK_STRING = '86.9163820638011874618505104537286754939523446'
-    CHECK_LOGARITHM = sy.Float(CHECK_STRING)
-    __, __, product_log10 = mono.math.integer_array_product(
-        integer_array=test_masked_array.compressed())
-
-    # Finally, check. As we are dealing with large single power
-    # prime composite numbers and long decimals, and the smallest 
-    # factor change of removing the 2 product still changes the
-    # logarithm enough, checking if the logs are close is good 
-    # enough.
-    assert_message = ("The check logarithm is: {check}  "
-                      "The product logarithm is: {log} "
-                      "The masked array is: \n {array}"
-                      .format(check=CHECK_LOGARITHM, log=product_log10,
-                              array=test_masked_array))
-    assert math.isclose(product_log10, CHECK_LOGARITHM), assert_message
-    # All done.
-    return None
-
-def test_mask_invalid_value():
-    """ This tests the masking of invalid values."""
-
-    # Creating the testing array.
-    test_array = mono._test.create_prime_test_array(shape=(7,7))
-
-    # We need to force invalid values as the prime test creation
-    # does not have them.
-    test_array = np.array(test_array,dtype=float)
-    test_array[1:3,2] = np.inf
-    test_array[2,4:6] = -np.inf
-    test_array[5,1:6] = np.nan
-
-    # Prescribed masking parameters
-    pass
-    # Create the mask.
-    test_mask = mask.mask_invalid_value(data_array=test_array)
-    # Create a masked array for both convince and testing.
-    test_masked_array = np_ma.array(test_array, mask=test_mask)
-    print(test_masked_array)
-    # A properly completed mask should have the same product value 
-    # as this number. This is how the mask is checked.
-    CHECK_STRING = '70.8884174145533646297736729939104459590381610'
     CHECK_LOGARITHM = sy.Float(CHECK_STRING)
     __, __, product_log10 = mono.math.integer_array_product(
         integer_array=test_masked_array.compressed())

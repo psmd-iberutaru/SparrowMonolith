@@ -29,11 +29,9 @@ def arithmetic_mean(array):
     result : Decimal
         The arithmetic mean of the array.
     """
-    # Use a copy.
-    array = copy.deepcopy(array)
     # Using Decimal will allow for "arbitrary precision", change
     # to using Numpy arrays.
-    array = np.array(array, dtype=decimal.Decimal)
+    array = np.array(array, dtype=decimal.Decimal).flatten()
     # Calculating the mean.
     summation = sum(array)
     N = decimal.Decimal(array.size)
@@ -65,17 +63,17 @@ def median(array):
         The median of the array.
     """
     # Sort the 'list'.
-    sort_array = sorted(array)
+    sort_array = sorted(np.array(array).flatten())
     # Return the middle result, or the mean of the two results.
     N = len(sort_array)
     if (N % 2):
         # Odd, just return the middle.
-        index = N // 2
+        index = (N - 1) // 2
         return sort_array[index]
     else:
         # Even, return the average of the middle two.
-        index = N // 2
-        return arithmetic_mean(sort_array[index:index+1])
+        index = (N - 1) // 2
+        return arithmetic_mean(array=sort_array[index:index+2])
     # Should not reach here.
     raise mono.BrokenLogicError
     # All done.
@@ -105,15 +103,16 @@ def standard_deviation(array, ddof=0):
     """
     # Using Decimal will allow for "arbitrary precision", change
     # to using Numpy arrays.
-    array = np.array(array, dtype=decimal.Decimal)
+    array = np.array(array, dtype=decimal.Decimal).flatten()
 
-    # Calculating the std.
+    # Ca lculating the std.
     mean = arithmetic_mean(array)
-    total_of_delta_squared = sum(array - mean)**2
+    total_of_delta_squared = sum((array - mean)**2)
     divisor = len(array) - ddof
+
     # The std itself
     result = decimal.Decimal(total_of_delta_squared / divisor).sqrt()
     # All done.
     return result
-# Alias
+# Aliases
 std = standard_deviation

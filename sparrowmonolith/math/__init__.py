@@ -11,4 +11,5 @@ from sparrowmonolith.math import function
 from sparrowmonolith.math import generate
 # Statistics.
 from sparrowmonolith.math import statistics
+stats = statistics # Aliases
 
