@@ -23,6 +23,13 @@ class SparrowExecption(Exception):
 #####################################################################
 #####################################################################
 
+class AmbiguousError(SparrowExecption):
+    """
+    This error is normally used when the program cannot figure out
+    the intentions of the user. SparrowMonolith generally will not 
+    try and predict what the user wants, and will instead fail.
+    """
+
 class ConfigurationError(SparrowExecption):
     """
     This error is normally encountered when there are problems with 
@@ -124,7 +131,7 @@ class AssumptionError(SparrowBaseException):
     """
     This error is reserved for instances where something 
     unexpected has occurred because of a flaw in the understanding 
-    of assumptions about Python or module functions.
+    of assumptions about Python or module functions. 
     """
     def __init__(self, message=None):
         # See if the user's message or a default message should be
@@ -277,6 +284,12 @@ class SparrowWarning(UserWarning):
     pass
 
 
+class AmbiguousWarning(SparrowWarning):
+    """
+    This warning is normally used when the program cannot figure out
+    the intentions of the user. It is not enough confusion to 
+    warrant a fail and will instead return the ambiguous results.
+    """
 
 class APIWarning(SparrowWarning):
     """

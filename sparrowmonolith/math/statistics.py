@@ -31,7 +31,8 @@ def arithmetic_mean(array):
     """
     # Using Decimal will allow for "arbitrary precision", change
     # to using Numpy arrays.
-    array = np.array(array, dtype=decimal.Decimal).flatten()
+    array = mono.object.array.change_dtype(
+        array=array, dtype=decimal.Decimal)
     # Calculating the mean.
     summation = sum(array)
     N = decimal.Decimal(array.size)
@@ -103,7 +104,8 @@ def standard_deviation(array, ddof=0):
     """
     # Using Decimal will allow for "arbitrary precision", change
     # to using Numpy arrays.
-    array = np.array(array, dtype=decimal.Decimal).flatten()
+    array = mono.object.array.change_dtype(
+        array=array, dtype=decimal.Decimal)
 
     # Ca lculating the std.
     mean = arithmetic_mean(array)

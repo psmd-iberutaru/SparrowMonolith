@@ -2,15 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>ad560cba-8ad4-4775-80f8-5bbf7c6f95fb</ProjectGuid>
+    <ProjectGuid>131a5e2a-d12c-4281-bdbc-1f3900c98661</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>dictionary.py</StartupFile>
+    <StartupFile>__init__.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>dictionary</Name>
-    <RootNamespace>dictionary</RootNamespace>
+    <Name>object</Name>
+    <RootNamespace>object</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +21,22 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="dictionary.py" />
+    <Compile Include="array\common.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="array\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="dict\common.py" />
+    <Compile Include="dict\__init__.py" />
+    <Compile Include="string\common.py" />
+    <Compile Include="string\__init__.py" />
+    <Compile Include="__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dict\" />
+    <Folder Include="array\" />
+    <Folder Include="string\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
