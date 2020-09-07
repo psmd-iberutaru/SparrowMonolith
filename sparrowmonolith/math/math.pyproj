@@ -27,7 +27,10 @@
     <Compile Include="function.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="generation.py">
+    <Compile Include="generate.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="statistics.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="__init__.py" />

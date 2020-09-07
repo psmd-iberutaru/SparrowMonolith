@@ -8,4 +8,8 @@ from sparrowmonolith.math import array
 # All sorts of mathematical functions are provided here.
 from sparrowmonolith.math import function
 # These are number generators.
-from sparrowmonolith.math import generation as generate
+from sparrowmonolith.math import generate
+# Statistics.
+from sparrowmonolith.math import statistics
+stats = statistics # Aliases
+
