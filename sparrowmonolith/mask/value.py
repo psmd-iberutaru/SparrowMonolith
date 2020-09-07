@@ -13,8 +13,8 @@ import sparrowmonolith as mono
 
 def mask_sigma_value(data_array, sigma_multiple, sigma_iterations=1):
     """
-    This applies a mask on pixels outside a given multiple of a sigma 
-    value.
+    This applies a mask on values outside a given multiple of a 
+    sigma value.
     
     This function masks values if they are outsize of a sigma range 
     from the mean. The mean and sigma values are automatically 
@@ -66,10 +66,10 @@ def mask_sigma_value(data_array, sigma_multiple, sigma_iterations=1):
     final_mask = mono.mask.mask_nothing(data_array=data_array)
     for iterdex in range(sigma_iterations):
         # Calculate the mean and the sigma values of the data array.
-        # masked pixels mean it was caught in previous iterations.
-        mean = mono.math.ifas_robust_mean(
+        # masked values mean it was caught in previous iterations.
+        mean = mono.math.statistics.arithmetic_mean(
             array=np_ma.array(data_array, mask=final_mask).compressed())
-        stddev = mono.math.ifas_robust_std(
+        stddev = mono.math.statistics.standard_deviation(
             array=np_ma.array(data_array, mask=final_mask).compressed())
         
         # Calculating the two individual masks and combining them.
@@ -83,94 +83,85 @@ def mask_sigma_value(data_array, sigma_multiple, sigma_iterations=1):
         # The mask based version is proper, the difference between a 
         # mask and a mask is just semantics. Also, keep track
         # of the previous masks all run through the iterations.
-        final_mask = mono.mask.base.synthesize_masks(final_mask, 
-                                                     min_mask, max_mask)
+        final_mask = mono.mask.common.synthesize_masks(
+            final_mask, min_mask, max_mask)
 
     return final_mask
 
 def mask_percent_truncation(data_array, top_percent, bottom_percent):
-    """ This mask truncates the top and bottom percent of pixels 
+    """ This mask truncates the top and bottom percent of values 
     provided.
 
     The values ``top_percent`` and ``bottom_percent`` notate the 
-    percentage of pixels from top and bottom of the data array 
-    (in value) that should be masked. The pixels masked are 
-    independent on the previous masks applied.
+    percentage of values from top and bottom of the data array 
+    (in number of values) that should be masked. The values masked 
+    are independent on the previous masks applied.
 
-    If the percentage of pixels leads to a non-integer number of
-    pixels to be masked, the number is floored. All pixels that have
-    a same value as the limiting pixel value for the top and bottom
-    percent of pixels are also masked.
+    If the percentage of values leads to a non-integer number of
+    values to be masked or where many of the same value is present,
+    values are kept.
 
     Parameters
     ----------
     data_array : ndarray
         The data array that the mask will be calculated from. 
-    top_count : float
-        The percent of pixels from the top (highest value) of 
-        the array that is to be masked.
-    bottom_count : int
-        The percent of pixels from the bottom (lowest value) of 
-        the array that is to be masked.
+    top_percent : float
+        The percent of values from the top (highest value) of 
+        the array that is to be masked. Must be between 0 and 1.
+    bottom_percent : float
+        The percent of values from the bottom (lowest value) of 
+        the array that is to be masked. Must be between 0 and 1.
 
     Returns
     -------
     final_mask : ndarray
         The mask as computed by this function.
     """
-    # For higher precision, in a way.
-    top_percent = np.longdouble(top_percent)
-    bottom_percent = np.longdouble(bottom_percent)
-    ONE = np.longdouble(1.0)
+    # For higher precision, in a way. It also gets around rounding
+    # errors for the percentile to count conversion.
+    n_data_points = int(np.size(data_array))
+    top_percent = decimal.Decimal(str(top_percent))
+    bottom_percent = decimal.Decimal(str(bottom_percent))
+    ONE = decimal.Decimal('1.0')
 
-    # A percent truncation is a fancy pixel truncation, and is 
-    # going to be applied as such. 
-    total_n_pixels = int(data_array.size)
-    top_pixel = int(np.floor(total_n_pixels * top_percent))
-    bottom_pixel = int(np.floor(total_n_pixels * bottom_percent))
+    # Ensure that they are percentages.
+    if (not (0 <= top_percent <= 1)):
+        raise mono.InputError("The top percent must be between 0 and 1.")
+    if (not (0 <= bottom_percent <= 1)):
+        raise mono.InputError("The bottom percent must be between 0 and 1.")
 
-    # The pixel mask
-    final_mask = mask_pixel_truncation(data_array=data_array, 
-                                       top_count=top_pixel, 
-                                       bottom_count=bottom_pixel)
-
-    # The above method requires that the total number of pixels is 
-    # not comparable to the float resolution. If not, then lower 
-    # bound values will be improperly cut and percentages will not 
-    # be accurately calculated.
-    if (np.log10(total_n_pixels) 
-        > (- np.log10(np.finfo(np.longdouble).resolution) - 5)):
-        mono.warn(mono.ImprecisionWarning,
-                  ("Float multiplication is used to calculate truncations. "
-                   "The total number of pixels approaches the machine "
-                   "resolution for multiplication."))
-    elif (np.log10(total_n_pixels) 
-          > (- np.log10(np.finfo(np.longdouble).resolution))):
-        mono.error(mono.ImprecisionError,
-                   ("Current number of pixels exceeds resolution of float "
-                    "multiplication; percent truncation may be wildly "
-                    "inaccurate."))
+    # The percentage cuts are just fancy count cuts. We will apply
+    # them as so.
+    top_count = np.floor(top_percent * n_data_points)
+    bottom_count = np.floor(bottom_percent * n_data_points)
+    # We rely on the mask count truncation being kept.
+    final_mask = mask_count_truncation(data_array=data_array, 
+                                       top_count=top_count, 
+                                       bottom_count=bottom_count)
     # Finally return
     return final_mask
 
-def mask_pixel_truncation(data_array, top_count, bottom_count):
-    """ This mask truncates the top and bottom number of pixels 
-    provided.
+def mask_count_truncation(data_array, top_count, bottom_count):
+    """ This mask truncates the top and bottom number of discrete 
+    values.
 
     The values ``top_count`` and ``bottom_count`` notate the number 
-    of pixels from top and bottom of the data array (in value) that 
-    should be cut. The pixels masked are independent on the 
+    of values from top and bottom of the data array (in value) that 
+    should be cut. The values masked are independent on the 
     previous masks applied.
+
+    If the cutoff point has multiple entries of the same value,
+    they are kept.
 
     Parameters
     ----------
     data_array : ndarray
         The data array that the mask will be calculated from. 
     top_count : int
-        The number of pixels from the top (highest value) of the 
+        The number of values from the top (highest value) of the 
         array that is to be masked.
     bottom_count : int
-        The number of pixels from the bottom (lowest value) of the 
+        The number of values from the bottom (lowest value) of the 
         array that is to be masked.
 
     Returns
@@ -185,27 +176,70 @@ def mask_pixel_truncation(data_array, top_count, bottom_count):
     bottom_count = int(bottom_count)
 
     # Sort the data so that the indexes line with order.
-    sorted_data = np.sort(np_ma.getdata(data_array, subok=False), axis=None)
+    sorted_data = np.sort(data_array, axis=None)
+    len_sorted_data = len(sorted_data)
 
     
     # Find the values above and below the cuts, simplifying the 
-    # process to pure value cuts.
-    upper_value = sorted_data[:-top_count][-1]
-    bottom_value = sorted_data[bottom_count:][0]
+    # process to pure value cuts. However, some special cases needs
+    # to be taken care of.
+    if ((top_count + bottom_count) >= len_sorted_data):
+        # They are masking out their entire array, or more.
+        return mono.mask.mask_everything(data_array=data_array)
+    else:
+        # Calculate the mask cuts.
+        # Upper mask cuts.
+        try:
+            upper_value = sorted_data[:-top_count][-1]
+        except TypeError:
+            # The splicing failed, find out why.
+            if (top_count <= 0):
+                # They don't want to cut the top.
+                upper_value = np.minimum(sorted_data) - 1
+            elif (top_count >= len_sorted_data):
+                # They want to mask the entire array from the top.
+                # But it should have been caught earlier.
+                raise mono.BrokenLogicError("This should have been caught "
+                                            "by the full mask function.")
+            else:
+                # The error is unknown.
+                raise mono.DevelopmentError("Why did the top count fail? "
+                                            "Top count: {top_c}"
+                                            .format(top_c=top_count))
+        # Lower mask cuts.
+        try:
+            lower_value = sorted_data[bottom_count:][0]
+        except TypeError:
+            # The splicing failed, find out why.
+            if (bottom_count <= 0):
+                # They don't want to cut the top.
+                upper_value = np.minimum(sorted_data) - 1
+            elif (bottom_count >= len_sorted_data):
+                # They want to mask the entire array from the top.
+                # But it should have been caught earlier.
+                raise mono.BrokenLogicError("This should have been caught "
+                                            "by the full mask function.")
+            else:
+                # The error is unknown.
+                raise mono.DevelopmentError("Why did the top count fail? "
+                                            "Top count: {top_c}"
+                                            .format(top_c=top_count))
 
-    # Calculating the two individual masks and combining them.
-    max_mask = mask_maximum_value(data_array=data_array, 
-                                  maximum_value=upper_value)
-    min_mask = mask_minimum_value(data_array=data_array, 
-                                  minimum_value=bottom_value)
-    # The mask based version is proper, the difference between a 
-    # mask and a mask is just semantics.
-    final_mask = mono.mask.base.synthesize_masks(min_mask, max_mask)
-
-    return final_mask
+        # Calculating the two individual masks and combining them.
+        max_mask = mask_maximum_value(data_array=data_array, 
+                                      maximum_value=upper_value)
+        min_mask = mask_minimum_value(data_array=data_array, 
+                                      minimum_value=lower_value)
+        # The mask based version is proper, the difference between a 
+        # mask and a mask is just semantics.
+        final_mask = mono.mask.synthesize_masks(min_mask, max_mask)
+        return final_mask
+    # The code should not reach here.
+    raise mono.BrokenLogicError
+    return None
 
 def mask_maximum_value(data_array, maximum_value):
-    """ This function computes a mask for all pixel values 
+    """ This function computes a mask for all values 
     strictly more than some maximum value.
 
     Parameters
@@ -223,14 +257,13 @@ def mask_maximum_value(data_array, maximum_value):
     """
     # Find which values are strictly less than. Decimal allows for
     # higher precision.
-    final_mask = np.where(data_array > decimal.Decimal(maximum_value), 
-                          True, False)
+    final_mask = np.where(data_array > maximum_value, True, False)
 
     # Done
     return final_mask
 
 def mask_minimum_value(data_array, minimum_value):
-    """ This function computes a mask for all pixel values 
+    """ This function computes a mask for all values 
     strictly less than some minimum value.
 
     Parameters
@@ -247,14 +280,13 @@ def mask_minimum_value(data_array, minimum_value):
         The mask as computed by this function.
     """
     # Find which values are strictly less than.
-    final_mask = np.where(data_array < decimal.Decimal(minimum_value), 
-                          True, False)
+    final_mask = np.where(data_array < minimum_value, True, False)
 
     # Done
     return final_mask
 
 def mask_exact_value(data_array, exact_value):
-    """ This function computes a mask for all pixel values 
+    """ This function computes a mask for all values 
     equal to some exact value.
 
     Float equality comparisons are dependent on tolerances. The main

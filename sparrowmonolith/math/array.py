@@ -9,46 +9,7 @@ import decimal
 import numpy as np
 import sympy as sy
 
-
-def to_array(array_like):
-    """ This function enforces that the input is translated into
-    a numpy array. If it already an array, it is untouched, 
-    otherwise it is turned into the closest array-like object.
-
-    Parameters
-    ----------
-    array_like : array-like
-        The array-like data object that will be interpreted into an
-        array.
-    
-    Returns
-    -------
-    array : ndarray or array-like
-        An array object that is more or less compatible with 
-        what is expected with Numpy arrays.
-    """
-
-    # Find the type of the array-like and convert it based on said
-    # type to the most accurate parallel.
-
-    # If it is already an array, then there is no need to continue.
-    if (isinstance(array_like, np.ndarray)):
-        # For naming convention.
-        array = array_like
-    # A Python list or tuple is simple to convert to an array.
-    elif (isinstance(array_like, (list, tuple))):
-        # A simple conversion is justified.
-        array = np.array(array_like)
-    else:
-        # It cannot be turned into an array.
-        raise mono.DataError("Type `{ty}` cannot be turned into a Numpy "
-                             "array."
-                             .format(ty=type(array_like)))
-
-    # Return and done.
-    return array
-
-
+import sparrowmonolith as mono
 
 def integer_array_product(array):
     """ This produces the product of every value within an array.
@@ -100,7 +61,7 @@ def float_array_product(array):
     """
     # For the highest precision, work with strings for numbers. This 
     # also ensures that array-like objects can be used.
-    string_array = np.array(to_array(array), dtype=str)
+    string_array = np.array(mono.object.array.to_array(array), dtype=str)
 
     # Iterate over the array and multiply its value to the product.
     # For efficiency, a running product is used (hence the product

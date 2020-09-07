@@ -19,8 +19,12 @@ from sparrowmonolith import mask
 # All modules and functions dealing with mathematics. 
 from sparrowmonolith import math
 
-# All operations that deal with string manipulation or formatting.
-from sparrowmonolith import string
+# All modules and functions dealing with meta-programing.
+from sparrowmonolith import meta
+
+# All operations that deal with the manipulation of objects in 
+# general, rather than any real form of computation.
+from sparrowmonolith import object
 
 
 #####

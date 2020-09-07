@@ -26,26 +26,24 @@
     <Compile Include="common.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="mask\test_mask_geometric.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="mask\test_mask_invalid.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="mask\test_mask_value.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="math\test_math_array.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="test_global.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="test_mask\test_mask_geometric.py" />
+    <Compile Include="test_mask\test_mask_invalid.py" />
+    <Compile Include="test_mask\test_mask_value.py" />
+    <Compile Include="test_math\test_math_array.py" />
+    <Compile Include="test_math\test_math_statistics.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="math\" />
-    <Folder Include="mask\" />
+    <Folder Include="test_mask\" />
+    <Folder Include="test_math\" />
+    <Folder Include="test_math\__pycache__\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="test_math\__pycache__\test_math_array.cpython-38-pytest-5.3.5.pyc" />
+    <Content Include="test_math\__pycache__\test_math_statistics.cpython-38-pytest-5.3.5.pyc" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
