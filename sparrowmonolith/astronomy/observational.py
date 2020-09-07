@@ -65,14 +65,14 @@ def maximum_time_observable(target_dec, obs_latitude, minimum_alt,
     precision = 20
     ZERO = decimal.Decimal('0')
     PI_HALF = decimal.Decimal(str(sy.N(sy.pi/2, precision)))
-    if (np.where((-PI_HALF < target_dec) & (target_dec < PI_HALF), 
+    if (np.where((-PI_HALF <= target_dec) & (target_dec <= PI_HALF), 
                  False, True).any()):
         # Target declinations are outside +/- pi/2 radians.
         raise mono.InputError("There exists at least one target declination "
                               "outside the polar limits of +/- pi/2. "
                               "Target declinations: {t_dec}"
                               .format(t_dec=target_dec))
-    if (np.where((-PI_HALF < obs_latitude) & (obs_latitude < PI_HALF), 
+    if (np.where((-PI_HALF <= obs_latitude) & (obs_latitude <= PI_HALF), 
                  False, True).any()):
         # Observatory latitudes are outside +/- pi/2 radians.
         raise mono.InputError("There exists at least one observatory "
@@ -80,7 +80,7 @@ def maximum_time_observable(target_dec, obs_latitude, minimum_alt,
                               "of +/- pi/2. "
                               "Observatory latitudes: {o_lat}"
                               .format(o_lat=obs_latitude))
-    if (np.where((ZERO < minimum_alt) & (minimum_alt < PI_HALF), 
+    if (np.where((ZERO <= minimum_alt) & (minimum_alt <= PI_HALF), 
                  False, True).any()):
         # Minimum altitudes are outside 0 to pi/2 radians.
         raise mono.InputError("There exists at least one minimum altitude "
@@ -93,15 +93,47 @@ def maximum_time_observable(target_dec, obs_latitude, minimum_alt,
     # This equation comes from using Equatorial in AltAz and finding
     # the limiting hour angles on both sides of the meridian. 
     # See Sparrow's Notes <TITLE> for more information.
-    with mono.silence_specific_warning(RuntimeWarning):
-        radians_observeable = 2 * np.arccos(
-            ((np.sin(minimum_alt) - np.sin(obs_latitude)*np.sin(target_dec)) 
-             / (np.cos(obs_latitude)*np.cos(target_dec))))
-
-        # If and where the trigonometry fails, that means that the 
-        # observable time is less than 0 hours, round up to zero.
-        radians_observeable = np.nan_to_num(radians_observeable, 
-                                            nan=0, posinf=24, neginf=0)
+    def _specialized_illegal_arccos_extension(input):
+        """ The arccos function is only defined between a domain of
+        0 <= x <= 1. However, the internal value of this arccos 
+        lends itself to have input values outside of this range.
+        This arccos extension applies the physical meaning that 
+        if an input of less than -1 is given, the target has an 
+        observing time of 24 hours; if it has an input greater 
+        than 1, it has an observing time of 0 hours. Justification  
+        is not mathematical, but physical; out math's logical limits.
+        """
+        precision = 20
+        if (isinstance(input, float)):
+            # The single value case handled with high precision.
+            if (input <= -1): 
+                return sy.N(sy.pi, precision)
+            elif (1 <= input):
+                return sy.N(0, precision)
+            else:
+                return sy.N(sy.acos(input),precision)
+        else:
+            # Arrays are built for speed, not precision.
+            input = np.asarray(input)
+            output = np.zeros_like(input)
+            # Calculate the arccos, deal with the unique values after.
+            with mono.silence_specific_warning(RuntimeWarning):
+                output = np.arccos(input)
+            # Internal value less than 0 --> 24 hours ~~> pi rad one HA.
+            output[np.asarray(input <= -1).nonzero()] = np.pi
+            # Internal value more than 1 --> 0 hours ~~> 0 rad one HA.
+            output[np.asarray(1 <= input).nonzero()] = 0
+            # Retain the higher precision where possible.
+            return output
+        # The code should not get here.
+        raise mono.BrokenLogicError
+        return None
+    # Calculate the angular observable duration.
+    _internal = ((np.sin(minimum_alt) - np.sin(obs_latitude) 
+                  * np.sin(target_dec))
+                / (np.cos(obs_latitude)*np.cos(target_dec)))
+    radians_observeable = 2 * _specialized_illegal_arccos_extension(
+        input=_internal)
 
     # Convert the radian angle result to units of hours 
     # via 1 hr = 15 deg = pi/12 rad. (The declination dependence was
