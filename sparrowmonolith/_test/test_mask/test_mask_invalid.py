@@ -6,7 +6,6 @@ masks.
 
 import random
 import numpy as np
-import pytest
 
 import sparrowmonolith as mono
 

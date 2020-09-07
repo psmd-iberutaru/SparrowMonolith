@@ -111,8 +111,7 @@ def _common_terminal_string_format(message):
         # It is not a valid type.
         raise TypeError("The message for a TERMINAL error must be a "
                          "string type.")
-        # If the message gets here, the user might not have caught
-        # the TypeError, the error is going to be elevated.
+        # If the message gets here, something really is wrong.
         raise TerminalError("The message for a TERMINAL error must be a "
                             "string type. The previous TypeError was not "
                             "properly raised.")
