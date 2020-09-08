@@ -26,24 +26,59 @@
     <Compile Include="common.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="test_api\test_api_email.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test_error.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="test_global.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test_io\test_io_fits.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test_mask\test_mask_common.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="test_mask\test_mask_geometric.py" />
     <Compile Include="test_mask\test_mask_invalid.py" />
     <Compile Include="test_mask\test_mask_value.py" />
     <Compile Include="test_math\test_math_array.py" />
+    <Compile Include="test_math\test_math_function.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test_math\test_math_generate.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="test_math\test_math_statistics.py" />
+    <Compile Include="test_meta\test_meta_module.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test_meta\test_meta_pathname.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test_object\test_object_dict\test_object_dict_common.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test_object\test_object_array\test_object_array_common.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test_object\test_object_string\test_object_string_common.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="test_api\" />
+    <Folder Include="test_meta\" />
+    <Folder Include="test_io\" />
+    <Folder Include="test_object\" />
     <Folder Include="test_mask\" />
     <Folder Include="test_math\" />
-    <Folder Include="test_math\__pycache__\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="test_math\__pycache__\test_math_array.cpython-38-pytest-5.3.5.pyc" />
-    <Content Include="test_math\__pycache__\test_math_statistics.cpython-38-pytest-5.3.5.pyc" />
+    <Folder Include="test_object\test_object_dict\" />
+    <Folder Include="test_object\test_object_array\" />
+    <Folder Include="test_object\test_object_string\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

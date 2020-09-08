@@ -6,11 +6,27 @@ calculations.
 
 import sympy as sy
 import math
+import pytest
 
 import sparrowmonolith as mono
 
+@pytest.mark.skip(reason="Not implemented.")
+def test_integer_array_sum():
+    """ This tests the summation of large integers in an array.
+    """
+    assert False
+    return None
+
+@pytest.mark.skip(reason="Not implemented.")
+def test_float_array_sum():
+    """ This tests the summation of large floats in an array.
+    """
+    assert False
+    return None
+
 def test_integer_array_product():
-    """ This tests the multiplication of large integers."""
+    """ This tests the multiplication of large integers in an array. 
+    """
 
     # Creating the testing array of integers.
     test_array = mono._test.create_prime_test_array(shape=(5,5),index=13)
@@ -50,4 +66,11 @@ def test_integer_array_product():
                              .format(check=CHECK_B10LOG, log=product_log10))
     assert math.isclose(product_log10, CHECK_B10LOG), b10log_assert_message
     # All done.
+    return None
+
+@pytest.mark.skip(reason="Not implemented.")
+def test_float_array_product():
+    """ This tests the multiplication of large floats in an array.
+    """
+    assert False
     return None

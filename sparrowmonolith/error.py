@@ -448,6 +448,7 @@ def error(type, message):
     logging.error(error_message)
     # ...and inform.
     warnings.warn(error_message, ErrorWarning, stacklevel=2)
+    return None
 
 def warn(type, message):
     """ Just a wrapper function around the warning's warn command.
@@ -469,7 +470,6 @@ def warn(type, message):
     # Also add it into the logger, but, add information to 
     # indicate that is was a raised warning.
     log_warn(type=type, message=message)
-
     return None
     
 def log_warn(type, message):
@@ -544,7 +544,7 @@ else:
     info._silent = False
 
 # The message form of the debug information. 
-def debug(message, print=False):
+def debug(message, console_print=False):
     """ This is a wrapper function for the printing of debug messages. 
 
     Given the nature of debug messages, it should be clear that it 
@@ -564,9 +564,6 @@ def debug(message, print=False):
     -------
     nothing    
     """
-    # For naming convention.
-    console_print = print
-
     # Test if info messages should not be printed given their
     if (debug._silent):
         # Messages should not be printed in general.

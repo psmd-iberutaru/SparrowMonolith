@@ -24,7 +24,7 @@
     <Compile Include="pathname.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="scrape.py">
+    <Compile Include="module.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="__init__.py" />

@@ -13,34 +13,6 @@ import sparrowmonolith as mono
 
 
 # Functions to deal with paths.
-def split_pathname(pathname):
-    """ This function splits a pathname into the directory, file, 
-    and extension names.
-    
-    Parameters
-    ----------
-    pathname : string
-        The pathname that is to be split.
-
-    Returns
-    -------
-    directory : string
-        The directory component of the pathname.
-    file_name : string
-        The file name component of the pathname.
-    extension : string
-        The extension component of the pathname.
-    """
-    # Type checking.
-    pathname = str(pathname)
-
-    # Split the pathname into directory/filename.extension.
-    directory = os.path.split(pathname)[0]
-    file_name = os.path.splitext(os.path.split(pathname)[1])[0]
-    extension = os.path.splitext(pathname)[1]
-
-    return directory, file_name, extension
-
 def combine_pathname(directory=None, filename=None, extension=None):
     """ This is the opposite of splitting path names. 
 
@@ -84,6 +56,34 @@ def combine_pathname(directory=None, filename=None, extension=None):
                             ''.join([all_filename, all_extension]))
     # All done.
     return pathname
+
+def split_pathname(pathname):
+    """ This function splits a pathname into the directory, file, 
+    and extension names.
+    
+    Parameters
+    ----------
+    pathname : string
+        The pathname that is to be split.
+
+    Returns
+    -------
+    directory : string
+        The directory component of the pathname.
+    file_name : string
+        The file name component of the pathname.
+    extension : string
+        The extension component of the pathname.
+    """
+    # Type checking.
+    pathname = str(pathname)
+
+    # Split the pathname into directory/filename.extension.
+    directory = os.path.split(pathname)[0]
+    file_name = os.path.splitext(os.path.split(pathname)[1])[0]
+    extension = os.path.splitext(pathname)[1]
+
+    return directory, file_name, extension
 
 
 # Functions to deal with modules.

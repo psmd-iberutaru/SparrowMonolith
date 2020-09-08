@@ -39,7 +39,7 @@ def mask_invalid_all(data_array):
                                    "invalid.py file. More strict file "
                                    "matching names needs to be applied.")
     # Load the file.
-    invalid_module = mono.meta.load_module_file(pathname=self_pathname)
+    invalid_module = mono.meta.load_source_file(pathname=self_pathname)
 
     # Get all of the invalid mask functions.
     mask_invalid_function_dict = inspect.getmembers(

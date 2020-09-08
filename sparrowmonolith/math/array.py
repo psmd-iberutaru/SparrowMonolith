@@ -11,6 +11,51 @@ import sympy as sy
 
 import sparrowmonolith as mono
 
+def integer_array_sum(array):
+    """ This produces the summation of an array for integers. 
+    Every value is added together, infinite precision should be 
+    supported.
+    
+    Parameters
+    ----------
+    array : ndarray
+        The array by which all the elements will be added together.
+    
+    Returns
+    -------
+    total : integer
+        The summation of the array.
+    """
+    # Just go through the array and start adding. Using Python's
+    # native infinite precision integers.
+    total = int(0)
+    for valuedex in np.asarray(array).flatten():
+        total = total + int(valuedex)
+    return total
+
+def float_array_sum(array):
+    """ This produces the summation of an array. Every value is 
+    basically added together in this function. High precision is
+    supported. 
+
+    Parameters
+    ----------
+    array : ndarray
+        The array by which all the elements will be added together.
+
+    Returns
+    -------
+    total : float
+        The summation of the array.
+    """
+    # Just go through the entire array and start adding.
+    total = decimal.Decimal('0')
+    for valuedex in np.asarray(array).flatten():
+        total = total + decimal.Decimal(str(valuedex))
+    # All done.
+    return total
+
+
 def integer_array_product(array):
     """ This produces the product of every value within an array.
     Sympy is used because of their superior handling of precision 
