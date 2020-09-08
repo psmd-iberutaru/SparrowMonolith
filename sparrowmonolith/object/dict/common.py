@@ -1,6 +1,7 @@
 
 import sparrowmonolith as mono
 
+
 def ravel_dictionary(dictionary, conflict):
     """ This function unravels a dictionary, un-nesting
     nested dictionaries into a single dictionary. If

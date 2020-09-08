@@ -36,7 +36,7 @@ def to_array(array_like):
     # A Python list or tuple is simple to convert to an array.
     elif (isinstance(array_like, (list, tuple))):
         # A simple conversion is justified.
-        array = np.array(array_like)
+        array = np.asarray(array_like)
     else:
         # It cannot be turned into an array.
         raise mono.DataError("Type `{ty}` cannot be turned into a Numpy "
@@ -73,7 +73,7 @@ def change_dtype(array, dtype):
         # functions.
         dtype_f = lambda x: dtype(x)
         # Convert and return.
-        return np.array(list(map(dtype_f, to_array(array).tolist())))
+        return np.asarray(list(map(dtype_f, to_array(array).tolist())))
 
     # The code should not get here.
     raise mono.BrokenLogicError

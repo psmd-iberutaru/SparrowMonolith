@@ -34,8 +34,8 @@ def arithmetic_mean(array):
     array = mono.object.array.change_dtype(
         array=array, dtype=decimal.Decimal)
     # Calculating the mean.
-    summation = sum(array)
-    N = decimal.Decimal(array.size)
+    summation = mono.math.array.float_array_sum(array=array)
+    N = int(array.size)
     result = summation / N
     # All done.
     return result
@@ -107,9 +107,10 @@ def standard_deviation(array, ddof=0):
     array = mono.object.array.change_dtype(
         array=array, dtype=decimal.Decimal)
 
-    # Ca lculating the std.
+    # Calculating the std.
     mean = arithmetic_mean(array)
-    total_of_delta_squared = sum((array - mean)**2)
+    total_of_delta_squared = mono.math.array.float_array_sum(
+        array=(array - mean)**2)
     divisor = len(array) - ddof
 
     # The std itself
