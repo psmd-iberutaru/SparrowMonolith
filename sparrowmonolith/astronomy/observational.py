@@ -15,8 +15,7 @@ def maximum_time_observable(target_dec, obs_latitude, minimum_alt,
     """ This function returns the maximum duration of time, in 
     hours, of how long an astronomical object can be observed over 
     some minimum altitude. (The day of observation is assumed to be
-    one of the better nights of the year.) Arrays are supported,
-    single values have some level of higher precision. 
+    one of the better nights of the year.) Arrays are supported.
 
     Parameters
     ----------
@@ -31,6 +30,9 @@ def maximum_time_observable(target_dec, obs_latitude, minimum_alt,
         considered observable. This is mostly used for observing
         above a given airmass. It must be in the angular units 
         specified by `angle_unit`.
+    angle_unit : string (optional)
+        The unit of angle that the values are inputted as; it can
+        be either `radian` for radians or `degree` for degrees.
 
     Return
     ------
@@ -48,7 +50,7 @@ def maximum_time_observable(target_dec, obs_latitude, minimum_alt,
         obs_latitude = np.array(obs_latitude)
         minimum_alt = np.array(minimum_alt)
     elif (angle_unit == 'degree'):
-        # Convert all of the angles to degrees and arrays for 
+        # Convert all of the angles to radians and arrays for 
         # broadcasting.
         target_dec = np.deg2rad(target_dec)
         obs_latitude = np.deg2rad(obs_latitude)
@@ -103,31 +105,18 @@ def maximum_time_observable(target_dec, obs_latitude, minimum_alt,
         than 1, it has an observing time of 0 hours. Justification  
         is not mathematical, but physical; out math's logical limits.
         """
-        precision = 20
-        if (isinstance(input, float)):
-            # The single value case handled with high precision.
-            if (input <= -1): 
-                return sy.N(sy.pi, precision)
-            elif (1 <= input):
-                return sy.N(0, precision)
-            else:
-                return sy.N(sy.acos(input),precision)
-        else:
-            # Arrays are built for speed, not precision.
-            input = np.asarray(input)
-            output = np.zeros_like(input)
-            # Calculate the arccos, deal with the unique values after.
-            with mono.silence_specific_warning(RuntimeWarning):
-                output = np.arccos(input)
-            # Internal value less than 0 --> 24 hours ~~> pi rad one HA.
-            output[np.asarray(input <= -1).nonzero()] = np.pi
-            # Internal value more than 1 --> 0 hours ~~> 0 rad one HA.
-            output[np.asarray(1 <= input).nonzero()] = 0
-            # Retain the higher precision where possible.
-            return output
-        # The code should not get here.
-        raise mono.BrokenLogicError
-        return None
+        # Array for broadcasting
+        input = np.asarray(input)
+        output = np.zeros_like(input)
+        # Calculate the arccos, deal with the unique values after.
+        with mono.silence_specific_warning(RuntimeWarning):
+            output = np.arccos(input)
+        # Internal value less than 0 --> 24 hours ~~> pi rad one HA.
+        output[np.asarray(input <= -1).nonzero()] = np.pi
+        # Internal value more than 1 --> 0 hours ~~> 0 rad one HA.
+        output[np.asarray(1 <= input).nonzero()] = 0
+        # Retain the higher precision where possible.
+        return output
     # Calculate the angular observable duration.
     _internal = ((np.sin(minimum_alt) - np.sin(obs_latitude) 
                   * np.sin(target_dec))
@@ -138,14 +127,7 @@ def maximum_time_observable(target_dec, obs_latitude, minimum_alt,
     # Convert the radian angle result to units of hours 
     # via 1 hr = 15 deg = pi/12 rad. (The declination dependence was
     # already accounted for in the previous equation.)
-    if (isinstance(radians_observeable, float)):
-        # A single value can be afforded higher accuracy as there
-        # is no Numpy to intercept it and give TypeErrors.
-        rad_to_hour_factor = sy.N(12 / sy.pi, precision)
-    else:
-        rad_to_hour_factor = 12 / np.pi
-    # Convert.
-    hours_observeable = radians_observeable * rad_to_hour_factor
+    hours_observeable = radians_observeable * (12 / np.pi)
     # Sanity check and all done.
     assert np.all(hours_observeable <= 24), "Too many hours in a day."
     return hours_observeable
