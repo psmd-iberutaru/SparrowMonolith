@@ -101,7 +101,7 @@ def test_disable_debug():
     return None
 
 @pytest.mark.skip(reason="Not implemented.")
-def test_absolute_silence():
+def test_silence_everything():
     """ This tests the silencing of all errors, messages, and 
     warnings.
     """
