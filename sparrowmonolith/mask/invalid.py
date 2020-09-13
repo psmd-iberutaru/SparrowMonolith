@@ -64,7 +64,7 @@ def mask_invalid_all(data_array):
     # Initial mask.
     final_mask = mono.mask.mask_nothing(data_array=data_array)
     for functiondex in invalid_masking_functions:
-        final_mask = mono.mask.synthesize_masks(
+        final_mask = mono.mask.combine_masks_lor(
             final_mask, functiondex(data_array=data_array))
     # All done.
     return final_mask

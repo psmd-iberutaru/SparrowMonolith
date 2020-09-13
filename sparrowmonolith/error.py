@@ -612,7 +612,7 @@ else:
 
 # To silence a specific type of warning. This is a wrapper function.
 @contextlib.contextmanager
-def silence_specific_warning(silenced_warning_type):
+def silence_specific_warning(warning_type):
     """ This context manager silences all warnings of a given type. 
     Depending on what was inputed.
     
@@ -622,7 +622,7 @@ def silence_specific_warning(silenced_warning_type):
         The warning that should be silenced.
     """
     with warnings.catch_warnings():
-        warnings.simplefilter("ignore", category=silenced_warning_type)
+        warnings.simplefilter("ignore", category=warning_type)
         yield
 
     return None
@@ -729,7 +729,7 @@ def disable_debug():
 
 # To silence everything, warnings, informational, and debug messages.
 @contextlib.contextmanager
-def absolute_silence():
+def silence_everything():
     """This context manager silences any and all messages, it 
     basically is a wrapper around all other general context 
     managers (even if there is some overlap).

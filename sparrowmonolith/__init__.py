@@ -12,6 +12,9 @@ from sparrowmonolith.error import *
 from sparrowmonolith import api
 # All modules and functions dealing with file input and output.
 from sparrowmonolith import io
+# All modules and functions dealing with astronomy.
+from sparrowmonolith import astronomy
+astro = astronomy # Aliases
 
 # All module and functions dealing with the creation of masks.
 from sparrowmonolith import mask

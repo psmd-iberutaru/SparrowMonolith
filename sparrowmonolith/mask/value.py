@@ -83,7 +83,7 @@ def mask_sigma_value(data_array, sigma_multiple, sigma_iterations=1):
         # The mask based version is proper, the difference between a 
         # mask and a mask is just semantics. Also, keep track
         # of the previous masks all run through the iterations.
-        final_mask = mono.mask.common.synthesize_masks(
+        final_mask = mono.mask.combine_masks_lor(
             final_mask, min_mask, max_mask)
 
     return final_mask
@@ -232,7 +232,7 @@ def mask_count_truncation(data_array, top_count, bottom_count):
                                       minimum_value=lower_value)
         # The mask based version is proper, the difference between a 
         # mask and a mask is just semantics.
-        final_mask = mono.mask.synthesize_masks(min_mask, max_mask)
+        final_mask = mono.mask.combine_masks_lor(min_mask, max_mask)
         return final_mask
     # The code should not reach here.
     raise mono.BrokenLogicError

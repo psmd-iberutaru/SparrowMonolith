@@ -29,6 +29,9 @@
     <Compile Include="test_api\test_api_email.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="test_astronomy\test_astronomy_observational.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="test_error.py">
       <SubType>Code</SubType>
     </Compile>
@@ -70,6 +73,7 @@
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="test_astronomy\" />
     <Folder Include="test_api\" />
     <Folder Include="test_meta\" />
     <Folder Include="test_io\" />
