@@ -94,8 +94,9 @@ def maximum_time_observable(target_dec, obs_latitude, minimum_alt,
     # Using an equation to compute the maximum time observable. 
     # This equation comes from using Equatorial in AltAz and finding
     # the limiting hour angles on both sides of the meridian. 
-    # See Sparrow's Notes <TITLE> for more information.
-    def _specialized_illegal_arccos_extension(input):
+    # See ``Sparrow's Notes Maximum Astronomical Observing Time``
+    # for more information.
+    def _extended_arccos_function(input):
         """ The arccos function is only defined between a domain of
         0 <= x <= 1. However, the internal value of this arccos 
         lends itself to have input values outside of this range.
@@ -111,7 +112,7 @@ def maximum_time_observable(target_dec, obs_latitude, minimum_alt,
         # Calculate the arccos, deal with the unique values after.
         with mono.silence_specific_warning(RuntimeWarning):
             output = np.arccos(input)
-        # Internal value less than 0 --> 24 hours ~~> pi rad one HA.
+        # Internal value less than -1 --> 24 hours ~~> pi rad one HA.
         output[np.asarray(input <= -1).nonzero()] = np.pi
         # Internal value more than 1 --> 0 hours ~~> 0 rad one HA.
         output[np.asarray(1 <= input).nonzero()] = 0
@@ -121,8 +122,7 @@ def maximum_time_observable(target_dec, obs_latitude, minimum_alt,
     _internal = ((np.sin(minimum_alt) - np.sin(obs_latitude) 
                   * np.sin(target_dec))
                 / (np.cos(obs_latitude)*np.cos(target_dec)))
-    radians_observeable = 2 * _specialized_illegal_arccos_extension(
-        input=_internal)
+    radians_observeable = 2 * _extended_arccos_function(input=_internal)
 
     # Convert the radian angle result to units of hours 
     # via 1 hr = 15 deg = pi/12 rad. (The declination dependence was
